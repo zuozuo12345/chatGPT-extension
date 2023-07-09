@@ -1,0 +1,28 @@
+export type PATH_TYPE = "public_profile" | "rps" | "unrelated" | null;
+
+export type SUB_PATH_TYPE =
+  | "root"
+  | "root_rps"
+  | "rps_profile"
+  | "rps_search"
+  | "rps_search_profile"
+  | "rps_hire"
+  | "rps_hire_profile"
+  | "rps_hire_recruiterSearch"
+  | "rps_hire_recruiterSearch_profile"
+  | "rps_hire_automatedSourcing"
+  | "rps_hire_automatedSourcing_profile"
+  | "contact_info"
+  | "details_experience"
+  | "details_skills"
+  | "details_education"
+  | "details_certifications"
+  | "details_languages"
+  | "details_recommendations"
+  | "details_projects"
+  | "details_awards"
+  | "details_volunteer"
+  | "details_courses"
+  | "recent_activity"
+  | "unrelated"
+  | null;

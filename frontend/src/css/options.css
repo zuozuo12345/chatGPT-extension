@@ -1,0 +1,60 @@
+body {
+    width: 380px;
+    font-family: Helvetica;
+}
+
+.site-title {
+    text-align: center;
+}
+
+.cr-input {
+    align-items: center;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #1a73e8;
+    display: inline-flex;
+    flex-shrink: 0;
+    font-weight: 500;
+    height: var(--cr-button-height);
+    justify-content: center;
+    min-width: 5.14em;
+    outline-width: 0;
+    padding: 8px 16px;
+    position: relative;
+    user-select: none;
+    width: 300px;
+}
+
+.ht-btn {
+    width: calc(100% - 5px);
+    border-radius: 3px;
+    border: 2px solid #f66700;
+    background-color: #f66700;
+    padding: 8px 15px;
+    font-weight: bold;
+    font-size: 12px;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.ht-link {
+    color: #f66700;
+    font-weight: bold;
+    font-size: 12px;
+    text-decoration: underline;
+    padding: 10px;
+    cursor: pointer;
+    width: calc(100% - 30px);
+    text-align: center;
+    display: block;
+}
+
+#activation-status-message {
+    color: #f66700;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+}
