@@ -50,6 +50,7 @@ export default function LoginComp() {
   const onFormSubmit = async (values: formikValuesInterface, { setErrors }) => {
     try {
       const { email, otp } = values;
+      console.log("emails", email);
 
       if (showResendBtn) {
         setShowResendBtn(false);
@@ -131,10 +132,7 @@ export default function LoginComp() {
         }
       } else {
         setFlashBannerMessage({
-          message:
-            typeof e === "string"
-              ? e
-              : "Something went wrong. Please try again.",
+          message: typeof e === "string" ? e : e.toString(),
           mode: "error",
         });
       }
@@ -209,6 +207,8 @@ export default function LoginComp() {
 
     init();
   }, []);
+
+  console.log(values.email);
 
   const resendOnClick = useCallback(async () => {
     if (showResendBtn) {
@@ -331,7 +331,7 @@ export default function LoginComp() {
         size="medium"
         borderRadius={8}
       >
-        {currentStep === "email" ? "Request OTP" : "Sign In"}
+        {currentStep === "email" ? "Request OTP emails" : "Sign In"}
       </MainButton>
     ),
     [currentStep, disableButton, isSubmitting]

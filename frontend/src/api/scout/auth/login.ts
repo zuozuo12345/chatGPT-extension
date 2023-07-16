@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { axiosScoutBaseBackendInstance } from "../../axiosOrder";
-
+import axios from "axios";
 interface getOtpCodeInterface {
   email: string;
 }
@@ -12,8 +12,21 @@ interface getOtpCodeInterface {
  */
 export async function getOtpCode({ email }: getOtpCodeInterface) {
   try {
-    const response = await axiosScoutBaseBackendInstance.get(
-      `api/auth/code?email=${email}`
+    // const response = await axiosScoutBaseBackendInstance.get(
+    //   `api/auth/code?email=${email}`
+    // )
+
+    console.log(email);
+
+    // const response = await axiosScoutBaseBackendInstance.post(
+    //   `/user/sendCode`,
+    //   { phone: email },
+    //   { headers: { "Content-Type": "application/json" } }
+    // );
+    const response = await axios.post(
+      `http://localhost:8090/user/sendCode`,
+      { phone: email },
+      { headers: { "Content-Type": "application/json" } }
     );
 
     const { status } = response;
@@ -23,6 +36,7 @@ export async function getOtpCode({ email }: getOtpCodeInterface) {
     };
   } catch (error) {
     const err = error as AxiosError;
+    console.log(error);
 
     if (err.response) {
       if (
@@ -36,7 +50,7 @@ export async function getOtpCode({ email }: getOtpCodeInterface) {
       }
     }
 
-    throw "Failed to send otp";
+    throw error;
   }
 }
 
