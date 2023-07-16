@@ -43,8 +43,11 @@ public class SmsComponent {
     @Value("${spring.mail.username}")
     private String from;   // 邮件发送人
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
+
+    public SmsComponent(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
 
 
     public Result send(String phone, String code) throws Exception {

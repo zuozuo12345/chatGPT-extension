@@ -21,8 +21,8 @@ public class UserRegisterRequest {
     @Length(min = 2,max = 18,message = "密码必须是2—18位字符")
     private String password;
 
-    @Pattern(regexp = "^1[3-9]\\d{9}$", message = "Invalid phone number")
-    @NotEmpty(message = "手机号不能为空")
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Invalid email format")
+    @NotEmpty(message = "邮箱不能为空")
     private String phone;
 
     @NotEmpty(message = "验证码不能为空")
