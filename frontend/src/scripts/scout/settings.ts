@@ -1,8 +1,11 @@
 // Staging
-export const SCOUT_WEB_URL = "https://app-staging.getscout.ai/";
-export const SCOUT_WEB_URL_HOST = "app-staging.getscout.ai";
-export const SCOUT_API_URL =
-  "https://scout-backend-gateway.263vhv6loth9g.ap-southeast-1.cs.amazonlightsail.com/";
+// export const SCOUT_WEB_URL = "https://app-staging.getscout.ai/";
+// export const SCOUT_WEB_URL_HOST = "app-staging.getscout.ai";
+// export const SCOUT_API_URL =
+//   "https://scout-backend-gateway.263vhv6loth9g.ap-southeast-1.cs.amazonlightsail.com/";
+export const SCOUT_WEB_URL = "https://localhost:8090/";
+export const SCOUT_WEB_URL_HOST = "https://localhost:8090/";
+export const SCOUT_API_URL = "https://localhost:8090/";
 export const SCOUT_PORT_NAME = "scout-extension-service-worker";
 export const SCOUT_EXTENSION_AUTH_COOKIE_NAME = "scout-cookie-auth";
 export const SCOUT_SESSION_EXPIRED_MESSAGE = "session_expired";
