@@ -164,8 +164,8 @@ CREATE TABLE `user_session`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 711 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
-#
-#
-# INSERT INTO `FunAI`.`admin_apikey` (`type`, `name`) VALUES (4, '70ede49c-fe55-4d28-a586-c6dd0ce266a9');
-#
-# INSERT INTO `FunAI`.`admin_apikey` (`type`, `name`, `is_free`) VALUES ('0', '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', '1');
+
+
+INSERT INTO `FunAI`.`admin_apikey` (`type`, `name`) VALUES (4, '70ede49c-fe55-4d28-a586-c6dd0ce266a9');
+
+INSERT INTO `FunAI`.`admin_apikey` (`type`, `name`, `is_free`) VALUES ('0', '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', '1');
