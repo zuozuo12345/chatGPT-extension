@@ -380,7 +380,7 @@ export default function LoginComp() {
           fontWeight: "bold",
         }}
       >
-        Welcome to Scout!
+        Welcome to ChatGPT AI Extension!
       </Typography>
       <Typography variant="body2">
         {`Please sign in`}
