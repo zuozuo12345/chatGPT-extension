@@ -92,7 +92,7 @@ export async function userLogin({
     //   );
 
     const response = await axios.post(
-      `http://localhost:8090/user/register`, // Ensure you're hitting the correct endpoint
+      `http://localhost:8090/user/register`,
       {
         userName: userName,
         password: password,
