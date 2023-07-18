@@ -74,7 +74,7 @@ public class UserController {
         System.out.println("code"+code);
         try {
             stringRedisTemplate.opsForValue().set(
-                    String.format(RedisKeys.USER_REGISTER_CODE ,request.getPhone()) ,code,5, TimeUnit.MINUTES);
+                    String.format(RedisKeys.USER_REGISTER_CODE ,request.getPhone()) ,code,1, TimeUnit.MINUTES);
         } catch (Exception e) {
             log.error("Error writing to Redis: " + e.getMessage(), e);
         }

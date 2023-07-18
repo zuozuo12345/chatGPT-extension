@@ -69,8 +69,8 @@ export async function getLoginProcessStorage(): Promise<loginProcessInterface> {
         const currentTime = moment.utc();
 
         const minuteDiff = currentTime.diff(timeStamp, "minutes");
-
-        if (minuteDiff <= 5) {
+        // change login time interval
+        if (minuteDiff <= 1) {
           return {
             loginProcess: loginProcessResponse["loginProcess"],
           };

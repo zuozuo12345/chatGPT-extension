@@ -83,13 +83,17 @@ export default function LoginComp() {
               >
                 {`${email}`}
               </Typography>
-              {` and expires in 5 minutes.`}
+              {` and expires in 1 minute.`}
             </>
           ),
           mode: "normal",
         });
       } else if (currentStep === "otp") {
-        const { token } = await userLogin({ phone: email, code: otp });
+        const { token } = await userLogin({
+          userName: email,
+          phone: email,
+          code: otp,
+        });
 
         await setLoginProcessStorage(null, null);
 
@@ -196,7 +200,7 @@ export default function LoginComp() {
               >
                 {`${getLoginProcessStorageResponse.loginProcess.email}`}
               </Typography>
-              {` and expires in 5 minutes.`}
+              {` and expires in 1 minute.`}
             </>
           ),
           mode: "normal",
@@ -229,7 +233,7 @@ export default function LoginComp() {
             >
               {`${values.email}.`}
             </Typography>
-            {` and expires in 5 minutes.`}
+            {` and expires in 1 minute.`}
           </>
         ),
         mode: "normal",
