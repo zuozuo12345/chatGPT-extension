@@ -16,8 +16,6 @@ export async function getOtpCode({ email }: getOtpCodeInterface) {
     //   `api/auth/code?email=${email}`
     // )
 
-    console.log(email);
-
     // const response = await axiosScoutBaseBackendInstance.post(
     //   `/user/sendCode`,
     //   { phone: email },
@@ -54,32 +52,59 @@ export async function getOtpCode({ email }: getOtpCodeInterface) {
   }
 }
 
-interface userLoginInterface {
-  email: string;
-  code: string;
-}
-
 interface userLoginResponseInterface {
   token: string;
   refresh_token: string;
 }
 
+interface UserLoginInterface {
+  userName?: string;
+  password?: string;
+  email?: string;
+  phone?: string;
+  code?: string;
+}
+
 /**
  * @desc API call to login.
- * @param email User's email.
+ * @param phone User's phone.
  * @param code User's OTP code.
+ * @param userName User's username
+ * @param password User's password
  * @return token (User's access token) and refresh_token (User's refresh token).
  */
-export async function userLogin({ email, code }: userLoginInterface) {
+
+export async function userLogin({
+  userName = null,
+  password = null,
+  phone = null,
+  email = null,
+  code = null,
+}: UserLoginInterface) {
   try {
-    const response =
-      await axiosScoutBaseBackendInstance.post<userLoginResponseInterface>(
-        "api/auth/login",
-        {
-          email,
-          code,
-        }
-      );
+    // const response =
+    //   await axiosScoutBaseBackendInstance.post<userLoginResponseInterface>(
+    //     "api/auth/login",
+    //     {
+    //       email,
+    //       code,
+    //     }
+    //   );
+
+    const response = await axios.post(
+      `http://localhost:8090/user/register`, // Ensure you're hitting the correct endpoint
+      {
+        userName: userName,
+        password: password,
+        phone: phone,
+        email: email,
+        code: code,
+      },
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
     const { token, refresh_token } = response.data;
 
     return {

@@ -37,14 +37,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BaseException.class)
     @ResponseBody
     public ReturnResult exception(BaseException e) {
-        log.error(e.getMessage());
+        log.error("base"+e.getMessage());
         return ReturnResult.error().code(e.getCode()).message(e.getMsg());
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ReturnResult exception(Exception e) {
-        log.error(e.getMessage());
+        e.printStackTrace();
+        log.error("Exception class: {}, message: {}", e.getClass().getName(), e.getMessage());
         return ReturnResult.error();
     }
+
 }

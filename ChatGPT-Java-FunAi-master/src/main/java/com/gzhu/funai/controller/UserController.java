@@ -71,8 +71,14 @@ public class UserController {
 
         // 随机产生4位数验证码
         String code = VerificationCodeGenerator.generateCode(4);
-        stringRedisTemplate.opsForValue().set(
-                String.format(RedisKeys.USER_REGISTER_CODE ,request.getPhone()) ,code,2, TimeUnit.MINUTES);
+        System.out.println("code"+code);
+        try {
+            stringRedisTemplate.opsForValue().set(
+                    String.format(RedisKeys.USER_REGISTER_CODE ,request.getPhone()) ,code,5, TimeUnit.MINUTES);
+        } catch (Exception e) {
+            log.error("Error writing to Redis: " + e.getMessage(), e);
+        }
+
 
         // 发送验证码
         return smsComponent.send(request.getPhone(),code).getSuccess() ? ReturnResult.ok() : ReturnResult.error().message("发送验证码错误");
@@ -94,6 +100,8 @@ public class UserController {
         if (!req.getCode().equals(redisCode)) {
             return ReturnResult.error().message("验证码错误");
         }
+
+        System.out.println("redisCode in register"+redisCode);
 
         // 删除验证码
         stringRedisTemplate.delete(String.format(RedisKeys.USER_REGISTER_CODE ,req.getPhone()));

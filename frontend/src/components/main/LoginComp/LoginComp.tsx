@@ -50,7 +50,6 @@ export default function LoginComp() {
   const onFormSubmit = async (values: formikValuesInterface, { setErrors }) => {
     try {
       const { email, otp } = values;
-      console.log("emails", email);
 
       if (showResendBtn) {
         setShowResendBtn(false);
@@ -90,7 +89,7 @@ export default function LoginComp() {
           mode: "normal",
         });
       } else if (currentStep === "otp") {
-        const { token } = await userLogin({ email, code: otp });
+        const { token } = await userLogin({ phone: email, code: otp });
 
         await setLoginProcessStorage(null, null);
 
@@ -207,8 +206,6 @@ export default function LoginComp() {
 
     init();
   }, []);
-
-  console.log(values.email);
 
   const resendOnClick = useCallback(async () => {
     if (showResendBtn) {
@@ -382,20 +379,7 @@ export default function LoginComp() {
       >
         Welcome to ChatGPT AI Extension!
       </Typography>
-      <Typography variant="body2">
-        {`Please sign in`}
-        {/* <Typography
-      component="span"
-      color="primary"
-      onClick={() => window.open(`${SCOUT_WEB_URL}login`)}
-      sx={{
-        cursor: "grab",
-      }}
-    >
-      {"sign in"}
-    </Typography> */}
-        {" to proceed"}
-      </Typography>
+      <Typography variant="body2">{`Please sign in to proceed`}</Typography>
       <Box
         sx={{
           pt: 0.75,

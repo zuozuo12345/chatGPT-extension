@@ -140,7 +140,7 @@ export default function AppBar(props: AppBarProps) {
           flexWrap={"nowrap"}
         >
           <Grid item>
-            <img style={{ width: 95 }} src={ScoutLogo} />
+            <img style={{ width: 200 }} src={ScoutLogo} />
           </Grid>
           <Grid item>
             <Stack spacing={2} direction="row">

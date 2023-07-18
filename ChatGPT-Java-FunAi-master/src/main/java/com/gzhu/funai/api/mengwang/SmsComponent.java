@@ -51,7 +51,7 @@ public class SmsComponent {
 
 
     public Result send(String phone, String code) throws Exception {
-        String subject = "Sharing Nearby Spots Verification Code";
+        String subject = "ChatingAI Extension Verification Code";
         String context = "Hello, dear user! Your verification code: " + code + ",which is valid for five minutes. Wish you have a nice day!";
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();

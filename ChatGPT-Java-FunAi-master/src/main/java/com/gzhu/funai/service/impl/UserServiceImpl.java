@@ -66,11 +66,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Override
     public UserEntity register(UserRegisterRequest req) {
         // 1、用户名、电话判重
-        if (this.baseMapper.selectCount(new QueryWrapper<UserEntity>()
+        if (req.getPhone() != null && this.baseMapper.selectCount(new QueryWrapper<UserEntity>()
                 .eq(MAP_KEY_MOBILE, req.getPhone())) > 0 ) {
             throw new PhoneException();
         }
-        if ( this.baseMapper.selectCount(new QueryWrapper<UserEntity>()
+        if (req.getUserName() != null && this.baseMapper.selectCount(new QueryWrapper<UserEntity>()
                 .eq(MAP_KEY_USERNAME, req.getUserName())) > 0 ) {
             throw new UsernameException();
         }
@@ -79,12 +79,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
         // 3、密码进行MD5盐值加密.不能直接对原密码加密，可能有网站收集了大量常见的MD5加密后的密码，暴力解法。
         // 加盐增加密码的复杂性再进行加密减小被破解的可能性。
-        userEntity.setPassword(PasswordEncoderUtil.encoder.encode(req.getPassword()));
+        if (req.getPassword() != null) {
+            userEntity.setPassword(PasswordEncoderUtil.encoder.encode(req.getPassword()));
+        }
 
         this.baseMapper.insert(userEntity);
 
         return userEntity;
     }
+
 
     @Override
     public Map<String,Object> login(LoginSession loginSession) {
