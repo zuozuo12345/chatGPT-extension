@@ -115,4 +115,6 @@ public class UserEntity {
         userEntity.setNickname(req.getUserName());
         return userEntity;
     }
+
+
 }

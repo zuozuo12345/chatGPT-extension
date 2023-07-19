@@ -27,12 +27,12 @@ public class GlobalExceptionHandler {
 
 
     // 数据库注册信息已存在异常
-    @ExceptionHandler(value= {EmailException.class, PhoneException.class, UsernameException.class})
-    @ResponseBody
-    public ReturnResult handleRegisterRepeatException(Exception e){
-        log.error("注册信息判重出现问题{}，异常类型：{}",e.getMessage(),e.getClass());
-        return ReturnResult.error().code(ResultCode.USER_REGISTER_PARAMS_REPEAT.code).message(ResultCode.USER_REGISTER_PARAMS_REPEAT.msg+":"+e.getMessage());
-    }
+//    @ExceptionHandler(value= {EmailException.class, PhoneException.class, UsernameException.class})
+//    @ResponseBody
+//    public ReturnResult handleRegisterRepeatException(Exception e){
+//        log.error("注册信息判重出现问题{}，异常类型：{}",e.getMessage(),e.getClass());
+//        return ReturnResult.error().code(ResultCode.USER_REGISTER_PARAMS_REPEAT.code).message(ResultCode.USER_REGISTER_PARAMS_REPEAT.msg+":"+e.getMessage());
+//    }
 
     @ExceptionHandler(BaseException.class)
     @ResponseBody

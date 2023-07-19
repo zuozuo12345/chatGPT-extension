@@ -152,4 +152,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         }
         return update;
     }
+
+    @Override
+    public UserEntity findByPhone(String phone) {
+        return null;
+    }
 }

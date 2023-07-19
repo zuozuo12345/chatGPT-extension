@@ -87,43 +87,107 @@ public class UserController {
     /**
      * 用户注册
      */
+//    @PostMapping("/register")
+//    public ReturnResult register(@Valid @RequestBody UserRegisterRequest req, HttpServletRequest request) {
+//        // 先校验验证码
+//        String redisCode = stringRedisTemplate.opsForValue().get(
+//                String.format(RedisKeys.USER_REGISTER_CODE, req.getPhone()));
+//
+//        if (StringUtils.isEmpty(redisCode)) {
+//            return ReturnResult.error().message("验证码过期，请重新发送验证码");
+//        }
+//
+//        if (!req.getCode().equals(redisCode)) {
+//            return ReturnResult.error().message("验证码错误");
+//        }
+//
+//        System.out.println("redisCode in register"+redisCode);
+//
+//        // 删除验证码
+//        stringRedisTemplate.delete(String.format(RedisKeys.USER_REGISTER_CODE ,req.getPhone()));
+//
+//        //验证码通过，真正注册
+//        UserEntity register = userService.register(req);
+//
+//        // 给新用户创建第一个聊天会话
+//        userSessionService.save(register.getId(), register.getUsername() + "的聊天室", SessionType.NORMAL_CHAT);
+//
+//        // 给新用户直接登录
+//        log.info("号码{}注册成功，已自动登录！", req.getPhone());
+//
+//        Map<String, Object> map = userService.login(
+//                LoginSession.builder()
+//                        .loginAcct(req.getUserName())
+//                        .password(req.getPassword())
+//                        .loginType(LoginType.NORMAL)
+//                        .ip(request.getRemoteAddr())
+//                        .build());
+//
+//        System.out.println("map"+map);
+//        return ReturnResult.ok().data(map);
+//    }
+
     @PostMapping("/register")
     public ReturnResult register(@Valid @RequestBody UserRegisterRequest req, HttpServletRequest request) {
-        // 先校验验证码
-        String redisCode = stringRedisTemplate.opsForValue().get(
-                String.format(RedisKeys.USER_REGISTER_CODE, req.getPhone()));
+        // Check if phone number already exists
+        UserEntity existingUser = userService.findByPhone(req.getPhone());
 
-        if (StringUtils.isEmpty(redisCode)) {
-            return ReturnResult.error().message("验证码过期，请重新发送验证码");
+        if (existingUser != null) {
+            // If user already exists, then log the user in
+            log.info("号码{}已存在，自动登录！", req.getPhone());
+
+            Map<String, Object> map = userService.login(
+                    LoginSession.builder()
+                            .loginAcct(existingUser.getUsername())
+                            .password(req.getPassword())  // Ensure password matches
+                            .loginType(LoginType.NORMAL)
+                            .ip(request.getRemoteAddr())
+                            .build());
+
+            // If password does not match, return an error message
+            if (map == null) {
+                return ReturnResult.error().message("Password is incorrect. Please try again.");
+            }
+
+            return ReturnResult.ok().data(map);
+        } else {
+            // 先校验验证码
+            String redisCode = stringRedisTemplate.opsForValue().get(
+                    String.format(RedisKeys.USER_REGISTER_CODE, req.getPhone()));
+
+            if (StringUtils.isEmpty(redisCode)) {
+                return ReturnResult.error().message("验证码过期，请重新发送验证码");
+            }
+
+            if (!req.getCode().equals(redisCode)) {
+                return ReturnResult.error().message("验证码错误");
+            }
+
+            // 删除验证码
+            stringRedisTemplate.delete(String.format(RedisKeys.USER_REGISTER_CODE, req.getPhone()));
+
+            //验证码通过，真正注册
+            UserEntity register = userService.register(req);
+
+            // 给新用户创建第一个聊天会话
+            userSessionService.save(register.getId(), register.getUsername() + "的聊天室", SessionType.NORMAL_CHAT);
+
+            // 给新用户直接登录
+            log.info("号码{}注册成功，已自动登录！", req.getPhone());
+
+            Map<String, Object> map = userService.login(
+                    LoginSession.builder()
+                            .loginAcct(req.getUserName())
+                            .password(req.getPassword())
+                            .loginType(LoginType.NORMAL)
+                            .ip(request.getRemoteAddr())
+                            .build());
+
+
+            System.out.println("map" + map);
+            return ReturnResult.ok().data(map);
         }
-
-        if (!req.getCode().equals(redisCode)) {
-            return ReturnResult.error().message("验证码错误");
-        }
-
-        System.out.println("redisCode in register"+redisCode);
-
-        // 删除验证码
-        stringRedisTemplate.delete(String.format(RedisKeys.USER_REGISTER_CODE ,req.getPhone()));
-
-        //验证码通过，真正注册
-        UserEntity register = userService.register(req);
-
-        // 给新用户创建第一个聊天会话
-        userSessionService.save(register.getId(), register.getUsername() + "的聊天室", SessionType.NORMAL_CHAT);
-
-        // 给新用户直接登录
-        log.info("号码{}注册成功，已自动登录！", req.getPhone());
-        return ReturnResult.ok().data(userService.login(
-                LoginSession.builder()
-                    .loginAcct(req.getUserName())
-                    .password(req.getPassword())
-                    .loginType(LoginType.NORMAL)
-                    .ip(request.getRemoteAddr())
-                    .build()
-        ));
     }
-
 
     /**
     * 登录（账号登录 / 游客登录）

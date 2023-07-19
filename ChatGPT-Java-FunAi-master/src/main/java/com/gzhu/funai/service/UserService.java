@@ -51,4 +51,6 @@ public interface UserService extends IService<UserEntity>{
      * @return
      */
     boolean changeLevel(String userId, int level);
+
+    UserEntity findByPhone(String phone);
 }
