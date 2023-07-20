@@ -27,11 +27,7 @@ import javax.validation.Valid;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @Author :wuxiaodong
- * @Date: 2023/3/16 14:58
- * @Description:
- */
+
 @RestController
 @RequestMapping("/user")
 @CrossOrigin
@@ -288,11 +284,7 @@ public class UserController {
         return flag ?  ReturnResult.ok() : ReturnResult.error();
     }
 
-    /**
-     * 添加用户建议
-     * @Author :oujiajun
-     * @Date: 2023/4/29 14:58
-     */
+
     @PostMapping("/advice/addAdvice")
     public ReturnResult addAdvice(@RequestBody @Valid UserAdviceRequest userAdviceRequest) {
         if (StringUtils.isEmpty(userAdviceRequest.getUserAdvice())) {

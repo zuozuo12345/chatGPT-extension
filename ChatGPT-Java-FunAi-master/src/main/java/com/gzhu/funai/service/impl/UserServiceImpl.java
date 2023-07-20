@@ -8,6 +8,8 @@ import com.gzhu.funai.dto.UserRegisterRequest;
 import com.gzhu.funai.dto.UserResetPasswordRequest;
 import com.gzhu.funai.enums.LoginType;
 import com.gzhu.funai.exception.BaseException;
+
+import com.gzhu.funai.exception.InvalidCredentialsException;
 import com.gzhu.funai.exception.PhoneException;
 import com.gzhu.funai.exception.UsernameException;
 import com.gzhu.funai.handler.LoginHandler;
@@ -18,6 +20,7 @@ import com.gzhu.funai.redis.RedisKeys;
 import com.gzhu.funai.service.UserService;
 import com.gzhu.funai.session.LoginSession;
 import com.gzhu.funai.utils.PasswordEncoderUtil;
+
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -63,22 +66,58 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         loginHandlerMap.put(LoginType.VISITOR, visitorLoginHandler);
     }
 
+//    @Override
+//    public UserEntity register(UserRegisterRequest req) {
+//        // 1、用户名、电话判重
+//        if (req.getPhone() != null && this.baseMapper.selectCount(new QueryWrapper<UserEntity>()
+//                .eq(MAP_KEY_MOBILE, req.getPhone())) > 0 ) {
+//            throw new PhoneException();
+//        }
+//        if (req.getUserName() != null && this.baseMapper.selectCount(new QueryWrapper<UserEntity>()
+//                .eq(MAP_KEY_USERNAME, req.getUserName())) > 0 ) {
+//            throw new UsernameException();
+//        }
+//        // 2、封装实体对象并持久化
+//        UserEntity userEntity = UserEntity.of(req);
+//
+//        // 3、密码进行MD5盐值加密.不能直接对原密码加密，可能有网站收集了大量常见的MD5加密后的密码，暴力解法。
+//        // 加盐增加密码的复杂性再进行加密减小被破解的可能性。
+//        if (req.getPassword() != null) {
+//            userEntity.setPassword(PasswordEncoderUtil.encoder.encode(req.getPassword()));
+//        }
+//
+//        this.baseMapper.insert(userEntity);
+//
+//        return userEntity;
+//    }
+
     @Override
     public UserEntity register(UserRegisterRequest req) {
-        // 1、用户名、电话判重
-        if (req.getPhone() != null && this.baseMapper.selectCount(new QueryWrapper<UserEntity>()
-                .eq(MAP_KEY_MOBILE, req.getPhone())) > 0 ) {
-            throw new PhoneException();
+        // 1. Check if there's an existing user with the provided phone or username
+        UserEntity existingUser = null;
+
+        if (req.getPhone() != null) {
+            existingUser = this.baseMapper.selectOne(new QueryWrapper<UserEntity>().eq(MAP_KEY_MOBILE, req.getPhone()));
         }
-        if (req.getUserName() != null && this.baseMapper.selectCount(new QueryWrapper<UserEntity>()
-                .eq(MAP_KEY_USERNAME, req.getUserName())) > 0 ) {
-            throw new UsernameException();
+
+        if (existingUser == null && req.getUserName() != null) {
+            existingUser = this.baseMapper.selectOne(new QueryWrapper<UserEntity>().eq(MAP_KEY_USERNAME, req.getUserName()));
         }
-        // 2、封装实体对象并持久化
+
+        // 2. If an existing user is found, verify the password
+        if (existingUser != null) {
+            if (req.getPassword() != null && PasswordEncoderUtil.encoder.matches(req.getPassword(), existingUser.getPassword())) {
+                // Password matches. Consider user as logged in and return
+                return existingUser;
+            } else {
+                // Password doesn't match. Handle this scenario, maybe throw an exception or return an error
+                throw new InvalidCredentialsException();
+            }
+        }
+
+        // 3. If we're here, it means it's a new user. Register them
         UserEntity userEntity = UserEntity.of(req);
 
-        // 3、密码进行MD5盐值加密.不能直接对原密码加密，可能有网站收集了大量常见的MD5加密后的密码，暴力解法。
-        // 加盐增加密码的复杂性再进行加密减小被破解的可能性。
         if (req.getPassword() != null) {
             userEntity.setPassword(PasswordEncoderUtil.encoder.encode(req.getPassword()));
         }
@@ -153,8 +192,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return update;
     }
 
-    @Override
-    public UserEntity findByPhone(String phone) {
-        return null;
-    }
+//    @Override
+//    public UserEntity findByPhone(String phone) {
+//        return null;
+//    }
 }
