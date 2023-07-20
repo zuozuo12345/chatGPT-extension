@@ -28,7 +28,7 @@ export async function getOtpCode({ email }: getOtpCodeInterface) {
     );
 
     const { status } = response;
-
+    console.log("response", response);
     return {
       status,
     };
