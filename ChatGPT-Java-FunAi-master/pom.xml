@@ -12,8 +12,8 @@
 	<groupId>com.gzhu</groupId>
 	<artifactId>funai</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>funai</name>
-	<description>Fun AI</description>
+	<name>ChatingAI</name>
+	<description>ChatingAI</description>
 	<packaging>war</packaging>
 
 
