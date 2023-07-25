@@ -36,7 +36,7 @@ public class AccessLimitInterceptor  implements HandlerInterceptor {
      */
     private Long times = 5L;
 
-    /**
+    /**F
      * 禁用时长--单位/分钟
      */
 

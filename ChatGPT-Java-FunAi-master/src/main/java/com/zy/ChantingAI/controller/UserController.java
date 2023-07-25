@@ -2,7 +2,7 @@ package com.zy.ChantingAI.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zy.ChantingAI.api.mengwang.SmsComponent;
-import com.gzhu.funai.dto.*;
+import com.zy.ChantingAI.dto.*;
 import com.zy.ChantingAI.entity.UserAdvicesEntity;
 import com.zy.ChantingAI.entity.UserApiKeyEntity;
 import com.zy.ChantingAI.entity.UserEntity;
@@ -11,7 +11,7 @@ import com.zy.ChantingAI.enums.LoginType;
 import com.zy.ChantingAI.enums.SessionType;
 import com.zy.ChantingAI.enums.UserLevel;
 import com.zy.ChantingAI.redis.RedisKeys;
-import com.gzhu.funai.service.*;
+import com.zy.ChantingAI.service.*;
 import com.zy.ChantingAI.session.LoginSession;
 import com.zy.ChantingAI.utils.ResultCode;
 import com.zy.ChantingAI.utils.ReturnResult;
