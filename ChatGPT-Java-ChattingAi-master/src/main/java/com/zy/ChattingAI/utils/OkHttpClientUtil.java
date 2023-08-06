@@ -1,0 +1,22 @@
+package com.zy.ChattingAI.utils;
+
+import okhttp3.ConnectionPool;
+import okhttp3.OkHttpClient;
+
+import java.util.concurrent.TimeUnit;
+
+public class OkHttpClientUtil {
+
+    private OkHttpClientUtil() {
+    }
+
+    private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .writeTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(1, TimeUnit.MINUTES)
+            .connectionPool(new ConnectionPool(50, 1L, TimeUnit.MINUTES)).build();
+
+    public static OkHttpClient getClient() {
+        return OK_HTTP_CLIENT;
+    }
+}
